@@ -3,8 +3,6 @@ import javax.swing.*;
 
 public class GameForm extends JFrame{
 
-    private JPanel gameAreaPlaceholder;
-
     public GameForm()
     {
         setTitle("Tetris");

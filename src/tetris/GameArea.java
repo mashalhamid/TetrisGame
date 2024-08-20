@@ -25,7 +25,7 @@ public class GameArea extends JPanel
         private void drawBlock(Graphics g){
             for (int row = 0; row < block.length; row++){
                 for(int col = 0; col< block [0].length; col++){
-                    if (block[row][col]==1){ //1 means coloured
+                    if (block[row][col]==1){ //1 means block is coloured
                         g.setColor(Color.red);
                         g.fillRect(col*gridCellSize, row*gridCellSize, gridCellSize, gridCellSize);
                         g.setColor(Color.black);
