@@ -12,6 +12,12 @@ public class GameForm extends JFrame{
 
         GameArea gameArea = new GameArea(10);
         add(gameArea); // Add the game area to the JFrame
+
+        startGame();
+    }
+
+    public void startGame(){
+        new GameThread().start();
     }
 
     public static void main(String[] args){
