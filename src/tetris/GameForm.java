@@ -3,6 +3,8 @@ import javax.swing.*;
 
 public class GameForm extends JFrame{
 
+    private GameArea ga;
+
     public GameForm()
     {
         setTitle("Tetris");
@@ -10,18 +12,18 @@ public class GameForm extends JFrame{
         setLocationRelativeTo(null);
         setLayout(null); // Disable layout manager for absolute positioning
 
-        GameArea gameArea = new GameArea(10);
-        add(gameArea); // Add the game area to the JFrame
+        ga = new GameArea(10);
+        this.add(ga);
 
         startGame();
     }
 
-    public void startGame(){
-        new GameThread().start();
+    public void startGame()
+    {
+        new GameThread(ga).start();
     }
 
     public static void main(String[] args){
-
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 new GameForm().setVisible(true);

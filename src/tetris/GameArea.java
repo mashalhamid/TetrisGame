@@ -25,11 +25,23 @@ public class GameArea extends JPanel
 
         public void spawnBlock(){
             block = new TetrisBlock(new int [][]{{1,1,1},{0,1,0}, {0,1,0}}, Color.blue);
+            block.spawn(gridColumns);
         }
 
+        //does the check if the block moves down
         public void moveBlockDown(){
+
+            if (checkBottom() == false) return;
             block.moveDown();
             repaint();
+        }
+
+        private boolean checkBottom(){
+            if(block.getBottomEdge() == gridRows)
+            {
+                return false;
+            }
+            return true;
         }
 
         private void drawBlock(Graphics g){
