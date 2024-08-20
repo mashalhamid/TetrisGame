@@ -1,21 +1,28 @@
 package tetris;
-import javax.swing.JFrame;
+import javax.swing.*;
 
 public class GameForm extends JFrame{
+
+    private JPanel gameAreaPlaceholder;
+
     public GameForm()
     {
-        //initComponents();
         setTitle("Tetris");
-        setDefaultCloseOperation(EXIT_ON_CLOSE);
-        setSize(300, 200);
+        setSize(400,600);
         setLocationRelativeTo(null);
-        setVisible(true);
-        this.add( new GameArea() );
+        setLayout(null); // Disable layout manager for absolute positioning
+
+        GameArea gameArea = new GameArea(10);
+        add(gameArea); // Add the game area to the JFrame
     }
 
     public static void main(String[] args){
-        new GameForm();
+
+        java.awt.EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                new GameForm().setVisible(true);
+            }
+        });
+
     }
-
-
 }
