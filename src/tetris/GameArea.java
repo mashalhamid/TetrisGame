@@ -77,6 +77,24 @@ public class GameArea extends JPanel
             {
                 return false;
             }
+            int[][] shape = block.getShape();
+            int width = block.getWidth();
+            int height = block.getHeight();
+
+            for(int col = 0; col< width; col++){
+                for(int row = height-1;row>-0;row--){
+                    if(shape[row][col]!=0){
+                        int x = col + block.getX();
+                        int y = row + block.getY();
+                        if(y<0) break;
+                        if(background[y][x] != null){
+                            return false;
+                        }
+                        break;
+                    }
+                }
+            }
+
             return true;
         }
 
