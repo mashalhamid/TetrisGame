@@ -44,12 +44,18 @@ public class GameArea extends JPanel
         }
 
         public void moveBlockRight(){
+
+            if(!checkRight()) return;
+
             block.moveRight();
             repaint();
 
         }
 
         public void moveBlockLeft(){
+
+            if(!checkLeft()) return;
+
             block.moveLeft();
             repaint();
         }
@@ -62,11 +68,9 @@ public class GameArea extends JPanel
         }
 
         public void rotateBlock(){
-            block.roate();
+            block.rotate();
             repaint();
         }
-
-
 
         private boolean checkBottom(){
             if(block.getBottomEdge() == gridRows)
@@ -74,6 +78,21 @@ public class GameArea extends JPanel
                 return false;
             }
             return true;
+        }
+
+        private boolean checkLeft(){
+            if(block.getLeftEdge()==0){
+                return false;
+            }
+            return true;
+        }
+
+        private boolean checkRight(){
+            if(block.getRightEdge()==gridColumns){
+                return false;
+            }
+            return true;
+
         }
 
         private void moveBlockToBackground(){
