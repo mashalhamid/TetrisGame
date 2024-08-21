@@ -12,7 +12,7 @@ public class TetrisBlock {
         this.color = color;
     }
 
-    public void spawn(int gridWidth){
+    public void create(int gridWidth){
         y = 0 - getHeight();
         x = (gridWidth - getWidth()) / 2;
     }

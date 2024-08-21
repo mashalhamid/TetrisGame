@@ -14,17 +14,19 @@ public class GameThread extends Thread{
     @Override
     public void run()
     {
-        while(true)
-        {
-            try{
-                ga.moveBlockDown();
-                Thread.sleep(200); //program waits for a second (how fast block moves)
-            }
-            catch (InterruptedException ex){
-                Logger.getLogger(GameThread.class.getName()).log(Level.SEVERE, null, ex);
+        while(true) {
+            ga.createBlock(); //we only want to create a new block when the current block stops
+            while (ga.moveBlockDown())
+            {
+                try {
+                    ga.moveBlockDown();
+                    Thread.sleep(1000); //program waits for a second (how fast block moves)
+                } catch (InterruptedException ex) {
+                    Logger.getLogger(GameThread.class.getName()).log(Level.SEVERE, null, ex);
+                }
+
             }
 
         }
-
     }
 }
