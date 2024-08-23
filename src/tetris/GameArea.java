@@ -34,6 +34,7 @@ public class GameArea extends JPanel
         public boolean moveBlockDown(){
             if (!checkBottom()){
                 moveBlockToBackground();
+                clearRow();
                 return false;
             }
 
@@ -146,6 +147,27 @@ public class GameArea extends JPanel
             }
             return true;
 
+        }
+
+        public void clearRow(){
+            boolean rowComplete;
+            for(int row = gridRows - 1; row>=0; row--){
+
+                rowComplete= true;
+
+                for(int col = 0; col<gridColumns; col++){
+                    if(background[row][col] == null){
+                        rowComplete=false;
+                        break;
+                    }
+                }
+                if(rowComplete){
+                    for(int i =0; i<gridColumns; i++){
+                        background[row][i] = null;
+                    }
+                    repaint();
+                }
+            }
         }
 
         private void moveBlockToBackground(){
