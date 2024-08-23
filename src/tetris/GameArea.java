@@ -30,11 +30,17 @@ public class GameArea extends JPanel
             block.create(gridColumns);
         }
 
+        public boolean isBlockOutOfBounds(){
+            if(block.getY() < 0){
+                block = null;
+                return true;
+            }
+            return false;
+        }
+
         //does the check if the block moves down
         public boolean moveBlockDown(){
             if (!checkBottom()){
-                moveBlockToBackground();
-                clearRow();
                 return false;
             }
 
@@ -46,6 +52,8 @@ public class GameArea extends JPanel
 
         public void moveBlockRight(){
 
+            if(block == null) return;
+
             if(!checkRight()) return;
 
             block.moveRight();
@@ -55,6 +63,8 @@ public class GameArea extends JPanel
 
         public void moveBlockLeft(){
 
+            if(block == null) return;
+
             if(!checkLeft()) return;
 
             block.moveLeft();
@@ -62,6 +72,9 @@ public class GameArea extends JPanel
         }
 
         public void dropBlockInstantly(){
+
+            if(block == null) return;
+
             while(checkBottom()){
                 block.moveDown();
             }
@@ -69,6 +82,9 @@ public class GameArea extends JPanel
         }
 
         public void rotateBlock(){
+
+            if(block == null) return;
+
             block.rotate();
             repaint();
         }
@@ -149,7 +165,7 @@ public class GameArea extends JPanel
 
         }
 
-        public void clearRow(){
+        public void clearRows(){
             boolean rowComplete;
             for(int row = gridRows - 1; row>=0; row--){
 
@@ -162,15 +178,30 @@ public class GameArea extends JPanel
                     }
                 }
                 if(rowComplete){
-                    for(int i =0; i<gridColumns; i++){
-                        background[row][i] = null;
-                    }
+                    clearRow(row);
+                    shiftRowDown(row);
+                    clearRow(0);
+                    row++; //  increment to check the last index row to remove every row
                     repaint();
                 }
             }
         }
 
-        private void moveBlockToBackground(){
+        private void clearRow(int row){
+            for(int i =0; i<gridColumns; i++){
+                background[row][i] = null;
+            }
+        }
+
+        public void shiftRowDown(int r){
+            for(int row = r; row>0; row--){
+                for(int col=0; col<gridColumns; col++){
+                    background [row][col] = background [row = 1][col];
+                }
+            }
+        }
+
+        public void moveBlockToBackground(){
             int[][] shape = block.getShape();
             int height = block.getHeight();
             int width = block.getWidth();

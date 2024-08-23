@@ -1,6 +1,7 @@
 package tetris;
 
 import java.awt.*;
+import java.util.Random;
 
 public class TetrisBlock {
     private int [][] shape;
@@ -34,11 +35,14 @@ public class TetrisBlock {
 
     public void create(int gridWidth){
 
-        currentRotation = 0;
+        Random ran = new Random();
+
+
+        currentRotation = ran.nextInt(4);
         shape = shapes [currentRotation];
 
-        y = 0 - getHeight();
-        x = (gridWidth - getWidth()) / 2;
+        y = - getHeight();
+        x = ran.nextInt(gridWidth - getWidth());
     }
 
     public int [][] getShape(){

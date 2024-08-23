@@ -27,6 +27,14 @@ public class GameThread extends Thread{
 
             }
 
+            if (ga.isBlockOutOfBounds()){
+                System.out.println("Game Over");
+                break;
+            }
+
+            ga.moveBlockToBackground();
+            ga.clearRows();
+
         }
     }
 }
