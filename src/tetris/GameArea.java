@@ -216,7 +216,7 @@ public class GameArea extends JPanel
         public void shiftRowDown(int r){
             for(int row = r; row>0; row--){
                 for(int col=0; col<gridColumns; col++){
-                    background [row][col] = background [row = 1][col];
+                    background [row][col] = background [row - 1][col];
                 }
             }
         }
