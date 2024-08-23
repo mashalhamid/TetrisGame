@@ -1,7 +1,8 @@
 package tetris;
-
+import tetrisblocks.*;
 import javax.swing.*;
 import java.awt.*;
+import java.util.Random;
 
 public class GameArea extends JPanel
     {
@@ -11,6 +12,8 @@ public class GameArea extends JPanel
         private Color[][] background;
 
         private TetrisBlock block; // tetris block
+
+        private TetrisBlock[] blocks;
 
         public GameArea(int columns) //constructor
         {
@@ -23,10 +26,21 @@ public class GameArea extends JPanel
 
             background = new Color[gridRows][gridColumns];  //background array (for blocks that have landed at the end)
 
+            blocks = new TetrisBlock[]{new IShape(),
+                                       new LShape(),
+                                       new JShape(),
+                                       new CubeShape(),
+                                       new SShape(),
+                                       new TShape(),
+                                       new ZShape(),
+            };
         }
 
         public void createBlock(){
-            block = new TetrisBlock(new int [][]{{1,1,1},{0,1,0}, {0,1,0}});
+
+            Random ran = new Random();
+
+            block = blocks [ran.nextInt(blocks.length)];
             block.create(gridColumns);
         }
 
