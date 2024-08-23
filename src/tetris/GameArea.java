@@ -26,7 +26,7 @@ public class GameArea extends JPanel
         }
 
         public void createBlock(){
-            block = new TetrisBlock(new int [][]{{1,1,1},{0,1,0}, {0,1,0}}, Color.blue);
+            block = new TetrisBlock(new int [][]{{1,1,1},{0,1,0}, {0,1,0}});
             block.create(gridColumns);
         }
 

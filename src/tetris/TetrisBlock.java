@@ -10,10 +10,10 @@ public class TetrisBlock {
     private int [][][] shapes;
     private int currentRotation;
 
-    public TetrisBlock(int [][] shape, Color color){
-        this.shape = shape;
-        this.color = color;
+    private Color[] availableColors = { Color.decode("#FF5733"), Color.decode("#33FF57"), Color.decode("#3357FF"), Color.decode("#FF33A1"), Color.decode("#FFD133") };
 
+    public TetrisBlock(int [][] shape){
+        this.shape = shape;
         initShapes();
     }
 
@@ -37,12 +37,13 @@ public class TetrisBlock {
 
         Random ran = new Random();
 
-
         currentRotation = ran.nextInt(4);
         shape = shapes [currentRotation];
 
         y = - getHeight();
         x = ran.nextInt(gridWidth - getWidth());
+
+        color = availableColors[ran.nextInt(availableColors.length)];
     }
 
     public int [][] getShape(){
