@@ -18,7 +18,7 @@ public class GameArea extends JPanel
         public GameArea(int columns) //constructor
         {
             setBounds(50, 100, 200, 400); // Set bounds directly in the GameArea constructor
-            setBorder(BorderFactory.createLineBorder(Color.black, 2));
+            setBorder(BorderFactory.createLineBorder(Color.lightGray, 2));
 
             gridColumns = columns;
             gridCellSize = getBounds().width/gridColumns; // Calculate cell size based on width

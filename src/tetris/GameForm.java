@@ -11,7 +11,7 @@ public class GameForm extends JFrame{
     {
         setTitle("Tetris");
         setDefaultCloseOperation(EXIT_ON_CLOSE);
-        setSize(400,600);
+        setSize(450,650);
         setLocationRelativeTo(null);
         setLayout(null); // Disable layout manager for absolute positioning
 

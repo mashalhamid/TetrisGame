@@ -10,7 +10,15 @@ public class TetrisBlock {
     private int [][][] shapes;
     private int currentRotation;
 
-    private Color[] availableColors = { Color.decode("#FF5733"), Color.decode("#33FF57"), Color.decode("#3357FF"), Color.decode("#FF33A1"), Color.decode("#FFD133") };
+    private Color[] availableColors = {
+            new Color(0xBF00FF), // Electric Purple
+            new Color(0xFF6EC7), // Neon Pink
+            new Color(0xBFFF00), // Lime Green
+            new Color(0x00FFFF), // Cyan Blue
+            new Color(0xFFA500)  // Solar Orange
+    };
+
+
 
     public TetrisBlock(int [][] shape){
         this.shape = shape;
