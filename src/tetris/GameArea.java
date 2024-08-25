@@ -4,292 +4,323 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.Random;
 
-public class GameArea extends JPanel
+public class GameArea extends JPanel {
+    private int gridRows;
+    private int gridColumns;
+    private int gridCellSize;
+    private Color[][] background;
+
+    private TetrisBlock block; // tetris block
+
+    private TetrisBlock[] blocks;
+
+    private boolean isPaused = false; // Flag to indicate if the game is paused
+
+
+    public GameArea(int columns) //constructor
     {
-        private int gridRows;
-        private int gridColumns;
-        private int gridCellSize;
-        private Color[][] background;
+        setBounds(50, 100, 200, 400); // Set bounds directly in the GameArea constructor
+        setBorder(BorderFactory.createLineBorder(Color.lightGray, 2));
 
-        private TetrisBlock block; // tetris block
+        gridColumns = columns;
+        gridCellSize = getBounds().width / gridColumns; // Calculate cell size based on width
+        gridRows = getBounds().height / gridCellSize; // Calculate number of rows based on cell size and height
 
-        private TetrisBlock[] blocks;
+        background = new Color[gridRows][gridColumns];  //background array (for blocks that have landed at the end)
 
-        public GameArea(int columns) //constructor
-        {
-            setBounds(50, 100, 200, 400); // Set bounds directly in the GameArea constructor
-            setBorder(BorderFactory.createLineBorder(Color.lightGray, 2));
+        blocks = new TetrisBlock[]{new IShape(),
+                new LShape(),
+                new JShape(),
+                new CubeShape(),
+                new SShape(),
+                new TShape(),
+                new ZShape(),
+        };
+    }
 
-            gridColumns = columns;
-            gridCellSize = getBounds().width/gridColumns; // Calculate cell size based on width
-            gridRows = getBounds().height/gridCellSize; // Calculate number of rows based on cell size and height
+    public void createBlock() {
+        Random ran = new Random();
+        block = blocks[ran.nextInt(blocks.length)];
+        block.create(gridColumns);
+    }
 
-            background = new Color[gridRows][gridColumns];  //background array (for blocks that have landed at the end)
-
-            blocks = new TetrisBlock[]{new IShape(),
-                                       new LShape(),
-                                       new JShape(),
-                                       new CubeShape(),
-                                       new SShape(),
-                                       new TShape(),
-                                       new ZShape(),
-            };
+    public boolean isBlockOutOfBounds() {
+        if (block.getY() < 0) {
+            block = null;
+            return true;
         }
+        return false;
+    }
 
-        public void createBlock(){
+    public boolean moveBlockDown() {
+        if (isPaused) return true; // Allow block to fall while paused
 
-            Random ran = new Random();
-
-            block = blocks [ran.nextInt(blocks.length)];
-            block.create(gridColumns);
-        }
-
-        public boolean isBlockOutOfBounds(){
-            if(block.getY() < 0){
-                block = null;
-                return true;
-            }
+        if (!checkBottom()) {
             return false;
         }
 
-        //does the check if the block moves down
-        public boolean moveBlockDown(){
-            if (!checkBottom()){
-                return false;
-            }
+        block.moveDown();
+        repaint();
+        return true;
+    }
 
+    public void moveBlockRight() {
+        if (isPaused) return; // Ignore movement if paused
+
+        if (block == null) return;
+
+        if (!checkRight()) return;
+
+        block.moveRight();
+        repaint();
+    }
+
+    public void moveBlockLeft() {
+        if (isPaused) return; // Ignore movement if paused
+
+        if (block == null) return;
+
+        if (!checkLeft()) return;
+
+        block.moveLeft();
+        repaint();
+    }
+
+    public void dropBlockInstantly() {
+        if (isPaused) return; // Ignore instant drop if paused
+
+        if (block == null) return;
+
+        while (checkBottom()) {
             block.moveDown();
-            repaint();
-
-            return true;
         }
+        repaint();
+    }
 
-        public void moveBlockRight(){
+    public void rotateBlock() {
+        if (isPaused) return; // Ignore rotation if paused
 
-            if(block == null) return;
+        if (block == null) return;
+        block.rotate();
 
-            if(!checkRight()) return;
+        // To check if block goes outside
+        if (block.getLeftEdge() < 0) block.setY(0);
+        if (block.getRightEdge() >= gridColumns) block.setX(gridColumns - block.getWidth());
+        if (block.getBottomEdge() >= gridRows) block.setY(gridRows - block.getHeight());
 
-            block.moveRight();
-            repaint();
+        repaint();
+    }
 
-        }
-
-        public void moveBlockLeft(){
-
-            if(block == null) return;
-
-            if(!checkLeft()) return;
-
-            block.moveLeft();
-            repaint();
-        }
-
-        public void dropBlockInstantly(){
-
-            if(block == null) return;
-
-            while(checkBottom()){
-                block.moveDown();
+    public void togglePause() {
+        isPaused = !isPaused;
+        synchronized (this) {
+            if (!isPaused) {
+                notify(); // Notify the waiting thread to resume
             }
-            repaint();
         }
+    }
 
-        public void rotateBlock(){
+    public boolean isPaused() {
+        return isPaused;
+    }
 
-            if(block == null) return;
-            block.rotate();
-
-            //to check if block goes outside
-            if(block.getLeftEdge() < 0) block.setY(0);
-            if(block.getRightEdge() >= gridColumns) block.setX(gridColumns-block.getWidth());
-            if(block.getBottomEdge() >=gridRows) block.setY(gridRows-block.getHeight());
-
-
-            repaint();
+    private boolean checkBottom() {
+        if (block.getBottomEdge() == gridRows) {
+            return false;
         }
+        int[][] shape = block.getShape();
+        int width = block.getWidth();
+        int height = block.getHeight();
 
-        private boolean checkBottom(){
-            if(block.getBottomEdge() == gridRows)
-            {
-                return false;
-            }
-            int[][] shape = block.getShape();
-            int width = block.getWidth();
-            int height = block.getHeight();
-
-            for(int col = 0; col< width; col++){
-                for(int row = height-1; row>=0; row--){
-                    if(shape[row][col] !=0){
-                        int x = col + block.getX();
-                        int y = row + block.getY() + 1;
-                        if(y < 0) break;
-                        if(background[y][x] != null){
-                            return false;
-                        }
-                        break;
+        for (int col = 0; col < width; col++) {
+            for (int row = height - 1; row >= 0; row--) {
+                if (shape[row][col] != 0) {
+                    int x = col + block.getX();
+                    int y = row + block.getY() + 1;
+                    if (y < 0) break;
+                    if (background[y][x] != null) {
+                        return false;
                     }
+                    break;
                 }
             }
-
-            return true;
         }
 
-        private boolean checkLeft(){
-            if(block.getLeftEdge()==0){
-                return false;
-            }
+        return true;
+    }
 
-            int[][] shape = block.getShape();
-            int width = block.getWidth();
-            int height = block.getHeight();
+    private boolean checkLeft() {
+        if (block.getLeftEdge() == 0) {
+            return false;
+        }
 
-            for(int row = 0; row<height; row++){
-                for(int col=0; col<width; col++){
-                    if(shape[row][col]!=0){
-                        int x = col + block.getX()-1;
-                        int y = row + block.getY();
-                        if(y<0) break;
-                        if(background[y][x] != null){
-                            return false;
-                        }
-                        break;
+        int[][] shape = block.getShape();
+        int width = block.getWidth();
+        int height = block.getHeight();
+
+        for (int row = 0; row < height; row++) {
+            for (int col = 0; col < width; col++) {
+                if (shape[row][col] != 0) {
+                    int x = col + block.getX() - 1;
+                    int y = row + block.getY();
+                    if (y < 0) break;
+                    if (background[y][x] != null) {
+                        return false;
                     }
+                    break;
                 }
             }
-            return true;
         }
+        return true;
+    }
 
-        private boolean checkRight(){
-            if(block.getRightEdge()==gridColumns){
-                return false;
-            }
-            int[][] shape = block.getShape();
-            int width = block.getWidth();
-            int height = block.getHeight();
+    private boolean checkRight() {
+        if (block.getRightEdge() == gridColumns) {
+            return false;
+        }
+        int[][] shape = block.getShape();
+        int width = block.getWidth();
+        int height = block.getHeight();
 
-            for(int row = 0; row<height; row++){
-                for(int col = width -1; col>=0 ;col--){
-                    if(shape[row][col]!=0){
-                        int x = col + block.getX()+1;
-                        int y = row + block.getY();
-                        if(y<0) break;
-                        if(background[y][x] != null){
-                            return false;
-                        }
-                        break;
+        for (int row = 0; row < height; row++) {
+            for (int col = width - 1; col >= 0; col--) {
+                if (shape[row][col] != 0) {
+                    int x = col + block.getX() + 1;
+                    int y = row + block.getY();
+                    if (y < 0) break;
+                    if (background[y][x] != null) {
+                        return false;
                     }
-                }
-            }
-            return true;
-
-        }
-
-        public void clearRows(){
-            boolean rowComplete;
-            for(int row = gridRows - 1; row>=0; row--){
-
-                rowComplete= true;
-
-                for(int col = 0; col<gridColumns; col++){
-                    if(background[row][col] == null){
-                        rowComplete=false;
-                        break;
-                    }
-                }
-                if(rowComplete){
-                    clearRow(row);
-                    shiftRowDown(row);
-                    clearRow(0);
-                    row++; //  increment to check the last index row to remove every row
-                    repaint();
+                    break;
                 }
             }
         }
+        return true;
 
-        private void clearRow(int row){
-            for(int i =0; i<gridColumns; i++){
-                background[row][i] = null;
+    }
+
+    public void clearRows() {
+        boolean rowComplete;
+        for (int row = gridRows - 1; row >= 0; row--) {
+
+            rowComplete = true;
+
+            for (int col = 0; col < gridColumns; col++) {
+                if (background[row][col] == null) {
+                    rowComplete = false;
+                    break;
+                }
+            }
+            if (rowComplete) {
+                clearRow(row);
+                shiftRowDown(row);
+                clearRow(0);
+                row++; //  increment to check the last index row to remove every row
+                repaint();
             }
         }
+    }
 
-        public void shiftRowDown(int r){
-            for(int row = r; row>0; row--){
-                for(int col=0; col<gridColumns; col++){
-                    background [row][col] = background [row - 1][col];
+    private void clearRow(int row) {
+        for (int i = 0; i < gridColumns; i++) {
+            background[row][i] = null;
+        }
+    }
+
+    public void shiftRowDown(int r) {
+        for (int row = r; row > 0; row--) {
+            for (int col = 0; col < gridColumns; col++) {
+                background[row][col] = background[row - 1][col];
+            }
+        }
+    }
+
+    public void moveBlockToBackground() {
+        int[][] shape = block.getShape();
+        int height = block.getHeight();
+        int width = block.getWidth();
+
+        int xPos = block.getX();
+        int yPos = block.getY();
+
+        Color color = block.getColor();
+
+        for (int row = 0; row < height; row++) {
+            for (int col = 0; col < width; col++) {
+                if (shape[row][col] == 1) {
+                    background[row + yPos][col + xPos] = color;
                 }
             }
         }
+    }
 
-        public void moveBlockToBackground(){
-            int[][] shape = block.getShape();
-            int height = block.getHeight();
-            int width = block.getWidth();
+    private void drawBlock(Graphics g) {
 
-            int xPos = block.getX();
-            int yPos = block.getY();
+        int height = block.getHeight();
+        int width = block.getWidth();
+        Color color = block.getColor();
+        int[][] shape = block.getShape();
 
-            Color color = block.getColor();
+        for (int row = 0; row < height; row++) {
+            for (int col = 0; col < width; col++) {
+                if (shape[row][col] == 1) { //1 means block is coloured
 
-            for (int row = 0; row<height; row++){
-                for (int col = 0; col<width; col++){
-                    if(shape[row][col] == 1){
-                        background[row + yPos][col + xPos] = color;
-                    }
+                    int x = (block.getX() + col) * gridCellSize;
+                    int y = (block.getY() + row) * gridCellSize;
+
+                    drawGridSquare(g, color, x, y);
                 }
             }
         }
+    }
 
-        private void drawBlock(Graphics g){
+    private void drawBackground(Graphics g) {
+        Color color;
 
-            int height = block.getHeight();
-            int width = block.getWidth();
-            Color color = block.getColor();
-            int [][] shape = block.getShape();
+        for (int row = 0; row < gridRows; row++) {
+            for (int col = 0; col < gridColumns; col++) {
+                color = background[row][col];
 
-            for (int row = 0; row < height; row++){
-                for(int col = 0; col< width; col++){
-                    if (shape[row][col]==1){ //1 means block is coloured
+                if (color != null) {
+                    int x = col * gridCellSize;
+                    int y = row * gridCellSize;
 
-                        int x = (block.getX() + col) * gridCellSize;
-                        int y = (block.getY() + row) * gridCellSize;
-
-                        drawGridSquare(g,color,x,y);
-                    }
+                    drawGridSquare(g, color, x, y);
                 }
             }
         }
+    }
 
-        private void drawBackground(Graphics g){
-            Color color;
-
-            for (int row = 0; row< gridRows; row++){
-                for(int col = 0; col<gridColumns; col++){
-                    color = background [row][col];
-
-                    if(color != null){
-                        int x = col * gridCellSize;
-                        int y = row * gridCellSize;
-
-                        drawGridSquare(g, color, x, y);
-                    }
-                }
-            }
-        }
-
-        public void drawGridSquare(Graphics g, Color color, int x, int y){
-            g.setColor(color);
-            g.fillRect(x, y, gridCellSize, gridCellSize);
-            g.setColor(Color.black);
-            g.drawRect(x, y,gridCellSize, gridCellSize);
-        }
+    public void drawGridSquare(Graphics g, Color color, int x, int y) {
+        g.setColor(color);
+        g.fillRect(x, y, gridCellSize, gridCellSize);
+        g.setColor(Color.black);
+        g.drawRect(x, y, gridCellSize, gridCellSize);
+    }
 
     @Override
-    protected void paintComponent(Graphics g){
+    protected void paintComponent(Graphics g) {
         super.paintComponent(g); //draws background
         drawBackground(g);
         drawBlock(g);
 
+        if (isPaused) {
+            drawPauseMessage(g);
+        }
+
     }
 
+
+    private void drawPauseMessage(Graphics g) {
+        String message = "Game is paused\nPress P to continue";
+        Font font = new Font("Arial", Font.BOLD, 10);
+        g.setFont(font);
+        FontMetrics metrics = g.getFontMetrics(font);
+        int x = (getWidth() - metrics.stringWidth(message)) / 2;
+        int y = getHeight() / 2;
+
+        g.setColor(Color.BLACK);
+        g.drawString("Game is paused", x, y);
+        g.drawString("Press P to continue", x, y + 30); // Draw the second line below the first
+    }
 }

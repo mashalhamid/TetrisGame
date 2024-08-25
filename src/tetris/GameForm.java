@@ -31,43 +31,47 @@ public class GameForm extends JFrame{
         im.put(KeyStroke.getKeyStroke("LEFT"), "left");
         im.put(KeyStroke.getKeyStroke("UP"), "up");
         im.put(KeyStroke.getKeyStroke("DOWN"), "down");
+        im.put(KeyStroke.getKeyStroke("P"), "pause");
 
-        am.put("right", new AbstractAction(){
+        am.put("right", new AbstractAction() {
             @Override
-            public void actionPerformed(ActionEvent e){
+            public void actionPerformed(ActionEvent e) {
                 ga.moveBlockRight();
-
             }
         });
 
-        am.put("left", new AbstractAction(){
+        am.put("left", new AbstractAction() {
             @Override
-            public void actionPerformed(ActionEvent e){
+            public void actionPerformed(ActionEvent e) {
                 ga.moveBlockLeft();
-
             }
         });
 
-        am.put("up", new AbstractAction(){
+        am.put("up", new AbstractAction() {
             @Override
-            public void actionPerformed(ActionEvent e){
+            public void actionPerformed(ActionEvent e) {
                 ga.rotateBlock();
-
             }
         });
 
-        am.put("down", new AbstractAction(){
+        am.put("down", new AbstractAction() {
             @Override
-            public void actionPerformed(ActionEvent e){
+            public void actionPerformed(ActionEvent e) {
                 ga.dropBlockInstantly();
-
             }
         });
 
+        am.put("pause", new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                ga.togglePause();
+                ga.repaint();
+                }
+
+        });
     }
 
-    public void startGame()
-    {
+    public void startGame() {
         new GameThread(ga).start();
     }
 
