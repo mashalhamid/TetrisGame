@@ -94,6 +94,8 @@ public class GameForm extends JFrame{
             }
             else{
                 ga.togglePause();
+                ga.togglePause();
+                ga.repaint();
             }
         });
         add(backButton);
