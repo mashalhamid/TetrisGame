@@ -1,5 +1,6 @@
 package tetris;
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 
 public class GameForm extends JFrame{
@@ -19,12 +20,12 @@ public class GameForm extends JFrame{
         this.add(ga);
 
         initControls();
-
         startGame();
+        backButton();
     }
 
     private void initControls(){
-        InputMap im = this.getRootPane().getInputMap();
+        InputMap im = this.getRootPane().getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW);
         ActionMap am = this.getRootPane().getActionMap();
 
         im.put(KeyStroke.getKeyStroke("RIGHT"), "right");
@@ -69,6 +70,33 @@ public class GameForm extends JFrame{
                 }
 
         });
+    }
+
+    private void backButton() {
+        JButton backButton = new JButton("Back");
+        backButton.setBounds(130, 570, 200, 30);
+        backButton.setBackground(Color.WHITE);
+        backButton.setForeground(Color.BLACK);
+        backButton.setFocusPainted(false);
+
+        backButton.addActionListener(e -> {
+            ga.togglePause(); // Pause the game
+
+            int result = JOptionPane.showConfirmDialog(
+                    this,
+                    "Are you sure to stop the game?",
+                    "Confirm",
+                    JOptionPane.YES_NO_OPTION);
+
+            if (result == JOptionPane.YES_OPTION) {
+                dispose(); // Close the game form
+                new MainMenu().setVisible(true); // Return to the main menu
+            }
+            else{
+                ga.togglePause();
+            }
+        });
+        add(backButton);
     }
 
     public void startGame() {
