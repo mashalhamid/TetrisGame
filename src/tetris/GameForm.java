@@ -19,6 +19,7 @@ public class GameForm extends JFrame{
         ga = new GameArea(10);
         this.add(ga);
 
+        addTitleLabel("PLAY");
         initControls();
         startGame();
         backButton();
@@ -85,7 +86,7 @@ public class GameForm extends JFrame{
             int result = JOptionPane.showConfirmDialog(
                     this,
                     "Are you sure to stop the game?",
-                    "Confirm",
+                    "Exit Confirmation",
                     JOptionPane.YES_NO_OPTION);
 
             if (result == JOptionPane.YES_OPTION) {
@@ -104,6 +105,17 @@ public class GameForm extends JFrame{
     public void startGame() {
         new GameThread(ga).start();
     }
+
+    public void addTitleLabel(String text) {
+        JLabel titleLabel = new JLabel(text);
+        titleLabel.setFont(new Font("Tahoma", Font.BOLD, 40)); // Set font size and style
+        titleLabel.setForeground(Color.BLACK); // Set text color
+        titleLabel.setBounds(180, 20, getWidth(), 30); // Position the label at the top center of the screen
+
+
+        add(titleLabel);
+    }
+
 
     public static void main(String[] args){
         java.awt.EventQueue.invokeLater(new Runnable() {

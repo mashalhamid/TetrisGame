@@ -7,15 +7,15 @@ public class MainMenu extends JFrame {
 
     public MainMenu() {
         setTitle("Main Menu");
-        setSize(500, 550);
+        setSize(500, 600);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setLocationRelativeTo(null); // Center the frame
-        setLayout(new GridBagLayout());
+        setLayout(null);
 
         //creating a Jpanel to add buttons
         JPanel panel = new JPanel();
         panel.setLayout(new GridLayout(4, 1, 50, 50)); // padding between buttons
-
+        panel.setBounds(130, 120, 250, 350); // Set bounds for the panel
 
         JButton playButton = createStyledButton("Play");
         playButton.addActionListener(e -> {
@@ -50,18 +50,32 @@ public class MainMenu extends JFrame {
         gbc.insets = new Insets(20, 20, 20, 20); // Add some padding around the panel
 
         add(panel, gbc);
+        addTitleLabel("Main Menu");
     }
 
     private JButton createStyledButton(String text) {
         JButton button = new JButton(text);
-        button.setPreferredSize(new Dimension(200, 50));  // Set smaller size for the button
         button.setBackground(Color.WHITE);
         button.setForeground(Color.BLACK);
         button.setFocusPainted(false);
         button.setBorder(BorderFactory.createLineBorder(Color.lightGray, 1, true));  // Add rounded border
+        button.setHorizontalAlignment(SwingConstants.CENTER);
+
 
         return button;
     }
+
+    public void addTitleLabel(String text) {
+        JLabel titleLabel = new JLabel(text);
+        titleLabel.setFont(new Font("Tahoma", Font.BOLD, 40));
+        titleLabel.setForeground(Color.BLACK); // Set text color
+        titleLabel.setBounds(0, 20, getWidth(), 50);
+        titleLabel.setHorizontalAlignment(SwingConstants.CENTER);
+
+
+        add(titleLabel);
+    }
+
 
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> {
