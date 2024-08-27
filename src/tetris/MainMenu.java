@@ -24,7 +24,15 @@ public class MainMenu extends JFrame {
         });
 
         JButton configButton = createStyledButton("Configuration");
+        configButton.addActionListener(e -> {
+            new Configuration().setVisible(true);
+            dispose(); // closes the menu
+        });
+
+
         JButton highScoresButton = createStyledButton("High Scores");
+
+
         JButton exitButton = createStyledButton("Exit");
         exitButton.addActionListener(e -> {
             int result = JOptionPane.showConfirmDialog(
