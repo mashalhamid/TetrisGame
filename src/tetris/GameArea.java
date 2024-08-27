@@ -19,7 +19,7 @@ public class GameArea extends JPanel {
 
     public GameArea(int columns) //constructor
     {
-        setBounds(130, 90, 200, 400);
+        setBounds(130, 70, 200, 400);
         setBorder(BorderFactory.createLineBorder(Color.lightGray, 2));
 
         gridColumns = columns;

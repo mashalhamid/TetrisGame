@@ -12,7 +12,7 @@ public class GameForm extends JFrame{
     {
         setTitle("Tetris");
         setDefaultCloseOperation(EXIT_ON_CLOSE);
-        setSize(450,650);
+        setSize(500,600);
         setLocationRelativeTo(null);
         setLayout(null); // Disable layout manager for absolute positioning
 
@@ -74,7 +74,7 @@ public class GameForm extends JFrame{
 
     private void backButton() {
         JButton backButton = new JButton("Back");
-        backButton.setBounds(130, 570, 200, 30);
+        backButton.setBounds(130, 510, 200, 30);
         backButton.setBackground(Color.WHITE);
         backButton.setForeground(Color.BLACK);
         backButton.setFocusPainted(false);
