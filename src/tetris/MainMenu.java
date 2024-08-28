@@ -31,6 +31,11 @@ public class MainMenu extends JFrame {
 
 
         JButton highScoresButton = createStyledButton("High Scores");
+        highScoresButton.addActionListener(e -> {
+            new HighScores().setVisible(true);
+            dispose(); // closes the menu
+        });
+
 
 
         JButton exitButton = createStyledButton("Exit");

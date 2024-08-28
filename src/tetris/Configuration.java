@@ -18,7 +18,7 @@ public class Configuration extends JFrame {
         titleGbc.gridy = 0;
         titleGbc.gridwidth = 2; // Span across both columns
         titleGbc.anchor = GridBagConstraints.CENTER; // Center the label
-        titleGbc.insets = new Insets(20, 0, 20, 0); // Padding: top, left, bottom, right
+        titleGbc.insets = new Insets(20, 0, 20, 0); // Padding for top, left, bottom, right
 
         JLabel titleLabel = new JLabel("CONFIGURATION");
         titleLabel.setFont(new Font("Tahoma", Font.BOLD, 30)); // Set font size and style
@@ -26,7 +26,7 @@ public class Configuration extends JFrame {
         add(titleLabel, titleGbc);
 
         GridBagConstraints gbc = new GridBagConstraints();
-        gbc.insets = new Insets(10, 20, 10, 20); // Padding: top, left, bottom, right
+        gbc.insets = new Insets(10, 20, 10, 20); // Padding for top, left, bottom, right
         gbc.fill = GridBagConstraints.HORIZONTAL;
         gbc.weightx = 1.0;
         gbc.anchor = GridBagConstraints.WEST;
