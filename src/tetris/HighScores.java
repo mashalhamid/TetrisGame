@@ -27,7 +27,8 @@ public class HighScores extends JFrame {
         scoresPanel.add(nameLabel);
         scoresPanel.add(scoreLabel);
 
-        String[] names = {"Draco", "Neville", "Luna", "Riddle", "Tom", "Lucious", "Ron", "Hermoine", "Harry", "Judy"};
+        // Store name and scores in an array (hardcoded)
+        String[] names = {"Draco", "Snape", "Luna", "Riddle", "Tom", "Lucious", "Ron", "Hermoine", "Harry", "Neville"};
         int[] scores = {10000, 9500, 8400, 8330, 8230, 7900, 7100, 4000, 2000, 1200};
 
         for (int i = 0; i < names.length; i++) {
