@@ -31,19 +31,19 @@ public class HighScores extends JFrame {
         add(titleLabel, BorderLayout.NORTH);
 
         // Panel for No., names, scores, and config
-        JPanel scoresPanel = new JPanel(new GridLayout(11, 4, 10, 10)); // GridLayout for 4 columns: No., Name, Score, Config
-        JLabel noLabel = new JLabel("No.", SwingConstants.CENTER);
-        JLabel nameLabel = new JLabel("Name", SwingConstants.CENTER);
-        JLabel scoreLabel = new JLabel("Score", SwingConstants.CENTER);
-        JLabel configLabel = new JLabel("Config", SwingConstants.CENTER);
-        noLabel.setFont(new Font("Tahoma", Font.BOLD, 8));
-        nameLabel.setFont(new Font("Tahoma", Font.BOLD, 8));
-        scoreLabel.setFont(new Font("Tahoma", Font.BOLD, 8));
-        configLabel.setFont(new Font("Tahoma", Font.BOLD, 8));
-        scoresPanel.add(noLabel);
-        scoresPanel.add(nameLabel);
-        scoresPanel.add(scoreLabel);
-        scoresPanel.add(configLabel);
+        JPanel scoresPanel = new JPanel(new GridBagLayout()); // Use GridBagLayout for more control
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.insets = new Insets(5, 5, 5, 5); // Padding for each cell
+
+        // Create and add header labels
+        String[] headers = {"No.", "Name", "Score", "Config"};
+        for (int i = 0; i < headers.length; i++) {
+            JLabel headerLabel = new JLabel(headers[i], SwingConstants.CENTER);
+            headerLabel.setFont(new Font("Tahoma", Font.BOLD, 18));
+            gbc.gridx = i; // Column index
+            gbc.gridy = 0; // Row index (header row)
+            scoresPanel.add(headerLabel, gbc);
+        }
 
         // Load high scores and display them
         loadHighScores();
@@ -99,10 +99,25 @@ public class HighScores extends JFrame {
     private void displayScores(JPanel scoresPanel) {
         for (int i = 0; i < Math.min(highScores.size(), 10); i++) {
             PlayerScore playerScore = highScores.get(i);
-            scoresPanel.add(new JLabel(String.valueOf(i + 1), SwingConstants.CENTER)); // Display rank (No.)
-            scoresPanel.add(new JLabel(playerScore.getName(), SwingConstants.CENTER));
-            scoresPanel.add(new JLabel(String.valueOf(playerScore.getScore()), SwingConstants.CENTER));
-            scoresPanel.add(new JLabel(playerScore.getConfig(), SwingConstants.CENTER)); // Display config
+            GridBagConstraints gbc = new GridBagConstraints();
+            gbc.insets = new Insets(5, 5, 5, 5); // Padding for each cell
+            gbc.gridy = i + 1; // Row index (data starts from row 1)
+
+            // Display rank (No.)
+            gbc.gridx = 0;
+            scoresPanel.add(new JLabel(String.valueOf(i + 1), SwingConstants.CENTER), gbc);
+
+            // Display player name
+            gbc.gridx = 1;
+            scoresPanel.add(new JLabel(playerScore.getName(), SwingConstants.CENTER), gbc);
+
+            // Display score
+            gbc.gridx = 2;
+            scoresPanel.add(new JLabel(String.valueOf(playerScore.getScore()), SwingConstants.CENTER), gbc);
+
+            // Display config
+            gbc.gridx = 3;
+            scoresPanel.add(new JLabel(playerScore.getConfig(), SwingConstants.CENTER), gbc);
         }
     }
 
