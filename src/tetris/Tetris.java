@@ -19,7 +19,7 @@ public class Tetris {
 
         // Initialize and show the splash screen
         SwingUtilities.invokeLater(() -> {
-            SplashScreen splash = new SplashScreen(5000); // 5 seconds splash duration
+            SplashScreen splash = new SplashScreen(2000); // 5 seconds splash duration
             splash.showSplash();
         });
     }
