@@ -14,7 +14,6 @@ public class Tetris {
         }
     }
 
-
     public static void main(String[] args) {
 
         // Initialize and show the splash screen

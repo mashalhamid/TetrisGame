@@ -28,7 +28,7 @@ public class GameForm extends JFrame {
         setLayout(null); // Disable layout manager for absolute positioning
 
         // Initialize game area
-        ga = new GameArea(10);
+        ga = new GameArea(10, this);  // Pass the GameForm instance (this)
         this.add(ga);
 
         // Add game status display at the top

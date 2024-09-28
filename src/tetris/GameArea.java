@@ -16,9 +16,18 @@ public class GameArea extends JPanel {
 
     private boolean isPaused = false; // Flag to indicate if the game is paused
 
+    private int score = 0;  // Track player's score
+    private int level = 1;  // Track player's level
+    private int rowsCleared = 0;  // Track total rows cleared
+    private int columns;
 
-    public GameArea(int columns) //constructor
+    private GameForm gameForm;  // Reference to GameForm
+
+
+    public GameArea(int columns ,GameForm gameForm) //constructor
     {
+        this.columns = columns;
+        this.gameForm = gameForm;  // Store reference to GameForm
         setBounds(130, 70, 200, 400);
         setBorder(BorderFactory.createLineBorder(Color.lightGray, 2));
 
@@ -200,11 +209,11 @@ public class GameArea extends JPanel {
     }
 
     public void clearRows() {
+        int rowsClearedThisTurn = 0;
         boolean rowComplete;
+
         for (int row = gridRows - 1; row >= 0; row--) {
-
             rowComplete = true;
-
             for (int col = 0; col < gridColumns; col++) {
                 if (background[row][col] == null) {
                     rowComplete = false;
@@ -216,8 +225,35 @@ public class GameArea extends JPanel {
                 shiftRowDown(row);
                 clearRow(0);
                 row++; //  increment to check the last index row to remove every row
-                repaint();
+//                repaint();
+                rowsClearedThisTurn++;
             }
+        }
+        if (rowsClearedThisTurn > 0) {
+            int points = 0;
+            switch (rowsClearedThisTurn) {
+                case 1:
+                    points = 100;
+                    break;
+                case 2:
+                    points = 300;
+                    break;
+                case 3:
+                    points = 600;
+                    break;
+                case 4:
+                    points = 1000;
+                    break;
+            }
+
+            // Update score in GameForm
+            gameForm.updateScore(points);
+
+            //Update score in PlayerScore
+
+            // Update lines erased in GameForm
+            gameForm.updateLinesErased(rowsClearedThisTurn);
+
         }
     }
 
@@ -307,9 +343,7 @@ public class GameArea extends JPanel {
         if (isPaused) {
             drawPauseMessage(g);
         }
-
     }
-
 
     private void drawPauseMessage(Graphics g) {
         String message = "Game is paused\nPress P to continue";
