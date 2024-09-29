@@ -23,6 +23,7 @@ public class GameArea extends JPanel {
 
     private GameForm gameForm;  // Reference to GameForm
 
+    private SoundPlayer soundPlayer;
 
     public GameArea(int columns ,GameForm gameForm) //constructor
     {
@@ -254,6 +255,9 @@ public class GameArea extends JPanel {
             // Update lines erased in GameForm
             gameForm.updateLinesErased(rowsClearedThisTurn);
 
+            if(rowsClearedThisTurn>0){
+                Tetris.playEraseSound();
+            }
         }
     }
 
