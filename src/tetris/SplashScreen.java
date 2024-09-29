@@ -22,7 +22,7 @@ public class SplashScreen extends JWindow {
         int y = (screen.height - height) / 2;
         setBounds(x, y, width, height);
 
-        ImageIcon originalIcon = new ImageIcon("src/tetris/splash.png");
+        ImageIcon originalIcon = new ImageIcon("src/resources/splash.png");
         Image originalImage = originalIcon.getImage();
         Image scaledImage = originalImage.getScaledInstance(width, height, Image.SCALE_SMOOTH);
 

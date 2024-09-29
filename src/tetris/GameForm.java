@@ -15,8 +15,8 @@ public class GameForm extends JFrame {
 
     private int currentScore = 0;
     private int linesErased = 0;
-    private int currentLevel = 1; // Example starting level
-    private String playerType = "Human"; // Change to "AI" or "External" as needed
+    private int currentLevel = 1; // starting level
+    private String playerType = "Human";
     private int initialLevel = 1; // Set initial level
 
     // Constructor
