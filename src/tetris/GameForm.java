@@ -57,15 +57,24 @@ public class GameForm extends JFrame {
     // Add the game status display (Player type, levels, score, etc.)
     private void addGameStatusDisplay() {
         JPanel statusPanel = new JPanel();
-        statusPanel.setBounds(10, 50, 480, 20); // Set bounds for the status panel
-        statusPanel.setLayout(new GridLayout(1, 5, 5, 5)); // 1 row, 5 columns with spacing
+        statusPanel.setBounds(10, 50, 200, 400); // Set bounds for the status panel
+        statusPanel.setLayout(new GridLayout(5, 3, 5, 5)); // 5 rows, 1 column with spacing
 
         // Create labels
         playerTypeLabel = new JLabel("Player: " + playerType);
+        playerTypeLabel.setFont(new Font("Tahoma", Font.BOLD, 13)); // font size
+
         initialLevelLabel = new JLabel("Initial Level: " + initialLevel);
+        initialLevelLabel.setFont(new Font("Tahoma", Font.BOLD, 13)); // font size
+
         currentLevelLabel = new JLabel("Current Level: " + currentLevel);
+        currentLevelLabel.setFont(new Font("Tahoma", Font.BOLD, 13)); // font size
+
         scoreLabel = new JLabel("Score: " + currentScore);
+        scoreLabel.setFont(new Font("Tahoma", Font.BOLD, 20)); // font size
+
         linesErasedLabel = new JLabel("Lines Erased: " + linesErased);
+        linesErasedLabel.setFont(new Font("Tahoma", Font.BOLD, 13)); // font size
 
         // Add labels to panel
         statusPanel.add(playerTypeLabel);
