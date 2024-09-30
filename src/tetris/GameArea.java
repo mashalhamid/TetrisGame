@@ -300,7 +300,9 @@ public class GameArea extends JPanel {
             gameForm.updateLinesErased(rowsClearedThisTurn);
 
             if(rowsClearedThisTurn>0){
-                SoundPlayer.getInstance().playEraseLine();
+                if(isSoundEffectsOn) {
+                    SoundPlayer.getInstance().playEraseLine(); // sound
+                }
             }
         }
     }
