@@ -15,6 +15,10 @@ public class GameArea extends JPanel {
     private SoundPlayer soundPlayer;
 
     private boolean isPaused = false; // Flag to indicate if the game is paused
+    private static boolean isBackgroundMusicOn = true; // To track background music toggle
+    private static boolean isSoundEffectsOn = true;    // To track sound effects toggle
+
+
 
     private int score = 0;  // Track player's score
     private int level = 1;  // Track player's level
@@ -146,6 +150,22 @@ public class GameArea extends JPanel {
     public boolean isPaused() {
         return isPaused;
     }
+
+    // Method to toggle background music
+    public void toggleBackgroundMusic() {
+        if (isBackgroundMusicOn) {
+            SoundPlayer.getInstance().stopBackgroundMusic();
+        } else {
+            SoundPlayer.getInstance().startBackgroundMusic();
+        }
+        isBackgroundMusicOn = !isBackgroundMusicOn; // Toggle the flag
+    }
+
+    // Method to toggle sound effects
+    public void toggleSoundEffects() {
+        isSoundEffectsOn = !isSoundEffectsOn; // Toggle the flag
+    }
+
 
     private boolean checkBottom() {
         if (block.getBottomEdge() == gridRows) {

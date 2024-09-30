@@ -111,6 +111,8 @@ public class GameForm extends JFrame {
         im.put(KeyStroke.getKeyStroke("UP"), "up");
         im.put(KeyStroke.getKeyStroke("DOWN"), "down");
         im.put(KeyStroke.getKeyStroke("P"), "pause");
+        im.put(KeyStroke.getKeyStroke("M"), "music");
+        im.put(KeyStroke.getKeyStroke("S"), "sound");
 
         am.put("right", new AbstractAction() {
             @Override
@@ -147,6 +149,22 @@ public class GameForm extends JFrame {
                 ga.repaint();
             }
         });
+
+        am.put("music", new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                ga.toggleBackgroundMusic();
+            }
+        });
+
+        am.put("sound", new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                ga.toggleSoundEffects();
+            }
+        });
+
+
     }
 
     // Back button implementation

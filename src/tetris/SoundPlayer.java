@@ -84,6 +84,7 @@ public class SoundPlayer {
         }
         moveTurnSound.setFramePosition(0);
         moveTurnSound.start();
+
     }
 
     // Methods to control background music
