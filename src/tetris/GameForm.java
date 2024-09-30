@@ -7,6 +7,7 @@ import java.awt.event.ActionEvent;
 public class GameForm extends JFrame {
 
     private GameArea ga;
+    private SoundPlayer soundPlayer;
     private JLabel playerTypeLabel;
     private JLabel initialLevelLabel;
     private JLabel currentLevelLabel;
@@ -27,9 +28,13 @@ public class GameForm extends JFrame {
         setLocationRelativeTo(null);
         setLayout(null); // Disable layout manager for absolute positioning
 
-        // Initialize game area
+        // Initialise GameArea
         ga = new GameArea(10, this);  // Pass the GameForm instance (this)
         this.add(ga);
+
+        // Use the Singleton instance:
+        SoundPlayer soundPlayer = SoundPlayer.getInstance();
+
 
         // Add game status display at the top
         addGameStatusDisplay();
@@ -75,6 +80,7 @@ public class GameForm extends JFrame {
     public void updateScore(int points) {
         currentScore += points;
         scoreLabel.setText("Score: " + currentScore);
+        SoundPlayer.getInstance().playLevelUp();
     }
 
     // Method to update lines erased

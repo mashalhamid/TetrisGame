@@ -4,7 +4,8 @@ import javax.swing.*;
 
 public class Tetris {
 
-    private static SoundPlayer audio = new SoundPlayer();
+    // Use the Singleton instance:
+    SoundPlayer soundPlayer = SoundPlayer.getInstance();
 
     public static void gameOver(int score){
 
@@ -21,13 +22,23 @@ public class Tetris {
 
 
     // methods for playing sound
-    public static void playEraseSound(){
-        audio.playEraseLine();
-    }
 
     public static void playGameFinishSound(){
-        audio.playGameFinish();
+        SoundPlayer.getInstance().playGameFinish();
     }
+
+//    public static void playBackgroundMusic(){
+//        audio.startBackgroundMusic();
+//    }
+//    public static void stopBackgroundMusic(){
+//        audio.stopBackgroundMusic();
+//    }
+//    public static void playMoveTurn(){
+//        audio.playMoveTurn();
+//    }
+//    public static void playLevelUo(){
+//        audio.playLevelUp();
+//    }
 
     public static void main(String[] args) {
 

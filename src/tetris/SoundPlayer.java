@@ -7,13 +7,14 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class SoundPlayer {
+    private static SoundPlayer instance; // Singleton Instance
     private Clip eraseLineSound;
     private Clip gameFinishSound;
     private Clip backgroundMusic;
     private Clip levelUpSound;
     private Clip moveTurnSound;
 
-    public SoundPlayer() {
+    private SoundPlayer() {  //Constructor for singleton
         try {
             // Initialise Clips
             eraseLineSound = AudioSystem.getClip();
@@ -25,16 +26,23 @@ public class SoundPlayer {
             // Load audio files
             eraseLineSound.open(getAudioStream("/audiofiles/erase-line.wav"));
             gameFinishSound.open(getAudioStream("/audiofiles/game-finish.wav"));
-//            backgroundMusic.open(getAudioStream("/audiofiles/background.wav"));
+            backgroundMusic.open(getAudioStream("/audiofiles/background.wav"));
             levelUpSound.open(getAudioStream("/audiofiles/level-up.wav"));
             moveTurnSound.open(getAudioStream("/audiofiles/move-turn.wav"));
 
-            // Start background music loop
-            backgroundMusic.loop(Clip.LOOP_CONTINUOUSLY);
+            // Start background music loop, but only if not already playing
+            startBackgroundMusic();
 
         } catch (LineUnavailableException | UnsupportedAudioFileException | IOException e) {
             Logger.getLogger(SoundPlayer.class.getName()).log(Level.SEVERE, null, e);
         }
+    }
+    // Singleton getInstance method
+    public static SoundPlayer getInstance() {
+        if (instance == null) {
+            instance = new SoundPlayer();
+        }
+        return instance;
     }
 
     private AudioInputStream getAudioStream(String path) throws UnsupportedAudioFileException, IOException {
@@ -79,15 +87,15 @@ public class SoundPlayer {
     }
 
     // Methods to control background music
-    public void stopBackgroundMusic() {
-        if (backgroundMusic.isRunning()) {
-            backgroundMusic.stop();
-        }
-    }
-
     public void startBackgroundMusic() {
         if (!backgroundMusic.isRunning()) {
             backgroundMusic.loop(Clip.LOOP_CONTINUOUSLY);
+        }
+    }
+
+    public void stopBackgroundMusic() {
+        if (backgroundMusic.isRunning()) {
+            backgroundMusic.stop();
         }
     }
 }

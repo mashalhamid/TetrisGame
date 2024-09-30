@@ -9,10 +9,10 @@ public class GameArea extends JPanel {
     private int gridColumns;
     private int gridCellSize;
     private Color[][] background;
-
     private TetrisBlock block; // tetris block
-
     private TetrisBlock[] blocks;
+    private GameForm gameForm;  // Reference to GameForm
+    private SoundPlayer soundPlayer;
 
     private boolean isPaused = false; // Flag to indicate if the game is paused
 
@@ -21,12 +21,13 @@ public class GameArea extends JPanel {
     private int rowsCleared = 0;  // Track total rows cleared
     private int columns;
 
-    private GameForm gameForm;  // Reference to GameForm
 
-    private SoundPlayer soundPlayer;
 
     public GameArea(int columns ,GameForm gameForm) //constructor
     {
+        // Use the Singleton instance:
+        SoundPlayer soundPlayer = SoundPlayer.getInstance();
+
         this.columns = columns;
         this.gameForm = gameForm;  // Store reference to GameForm
         setBounds(130, 70, 200, 400);
@@ -82,6 +83,7 @@ public class GameArea extends JPanel {
         if (!checkRight()) return;
 
         block.moveRight();
+        SoundPlayer.getInstance().playMoveTurn(); // sound
         repaint();
     }
 
@@ -93,6 +95,7 @@ public class GameArea extends JPanel {
         if (!checkLeft()) return;
 
         block.moveLeft();
+        SoundPlayer.getInstance().playMoveTurn(); // sound
         repaint();
     }
 
@@ -104,6 +107,7 @@ public class GameArea extends JPanel {
         while (checkBottom()) {
             block.moveDown();
         }
+        SoundPlayer.getInstance().playMoveTurn();
         repaint();
     }
 
@@ -112,6 +116,7 @@ public class GameArea extends JPanel {
 
         if (block == null) return;
         block.rotate();
+        SoundPlayer.getInstance().playMoveTurn(); //rotate sound
 
         // To check if block goes outside
         if (block.getLeftEdge() < 0) block.setY(0);
@@ -128,7 +133,15 @@ public class GameArea extends JPanel {
                 notify(); // Notify the waiting thread to resume
             }
         }
+
+        if (isPaused) {
+            SoundPlayer.getInstance().stopBackgroundMusic(); // Stop background music when paused
+        } else {
+            SoundPlayer.getInstance().startBackgroundMusic(); // Resume background music when unpaused
+        }
+
     }
+
 
     public boolean isPaused() {
         return isPaused;
@@ -256,7 +269,7 @@ public class GameArea extends JPanel {
             gameForm.updateLinesErased(rowsClearedThisTurn);
 
             if(rowsClearedThisTurn>0){
-                Tetris.playEraseSound();
+                SoundPlayer.getInstance().playEraseLine();
             }
         }
     }
