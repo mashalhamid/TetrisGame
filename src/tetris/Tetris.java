@@ -14,31 +14,15 @@ public class Tetris {
         String playerName = JOptionPane.showInputDialog("Game Over! \n Please enter your name");
         if (playerName != null && !playerName.trim().isEmpty()) {
             // Save the player's name and score
-            String config = "Human";
+            String config = "Human";  // Adjust this as needed to match the actual game config
             HighScores.addPlayer(playerName, score, config);
-
         }
     }
 
-
     // methods for playing sound
-
     public static void playGameFinishSound(){
         SoundPlayer.getInstance().playGameFinish();
     }
-
-//    public static void playBackgroundMusic(){
-//        audio.startBackgroundMusic();
-//    }
-//    public static void stopBackgroundMusic(){
-//        audio.stopBackgroundMusic();
-//    }
-//    public static void playMoveTurn(){
-//        audio.playMoveTurn();
-//    }
-//    public static void playLevelUo(){
-//        audio.playLevelUp();
-//    }
 
     public static void main(String[] args) {
 

@@ -20,6 +20,8 @@ public class GameForm extends JFrame {
     private String playerType = "Human";
     private int initialLevel = 1; // Set initial level
 
+    private static boolean isSoundEffectsOn = true;    // To track sound effects toggle
+
     // Constructor
     public GameForm() {
         setTitle("Tetris");
@@ -76,23 +78,26 @@ public class GameForm extends JFrame {
         add(statusPanel);
     }
 
+    // Method to update the number of lines erased
+    public void updateLinesErased(int lines) {
+        linesErased += lines;
+        linesErasedLabel.setText("Lines Erased: " + linesErased);
+
+        // Increase level after every 10 lines erased
+        if (linesErased % 10 == 0) {
+            currentLevel++;
+            currentLevelLabel.setText("Level: " + currentLevel);
+
+            if(isSoundEffectsOn) {
+                SoundPlayer.getInstance().playLevelUp(); // sound
+            }
+        }
+    }
+
     // Method to update the score
     public void updateScore(int points) {
         currentScore += points;
         scoreLabel.setText("Score: " + currentScore);
-        SoundPlayer.getInstance().playLevelUp();
-    }
-
-    // Method to update lines erased
-    public void updateLinesErased(int lines) {
-        linesErased += lines;
-        linesErasedLabel.setText("Lines Erased: " + linesErased);
-    }
-
-    // Method to update the current level
-    public void updateLevel(int level) {
-        currentLevel = level;
-        currentLevelLabel.setText("Current Level: " + currentLevel);
     }
 
     // Method to update player type (AI, Human, etc.)

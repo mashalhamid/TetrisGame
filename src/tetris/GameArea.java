@@ -87,7 +87,9 @@ public class GameArea extends JPanel {
         if (!checkRight()) return;
 
         block.moveRight();
-        SoundPlayer.getInstance().playMoveTurn(); // sound
+        if(isSoundEffectsOn) {
+            SoundPlayer.getInstance().playMoveTurn(); // sound
+        }
         repaint();
     }
 
@@ -99,7 +101,9 @@ public class GameArea extends JPanel {
         if (!checkLeft()) return;
 
         block.moveLeft();
-        SoundPlayer.getInstance().playMoveTurn(); // sound
+        if(isSoundEffectsOn) {
+            SoundPlayer.getInstance().playMoveTurn(); // sound
+        }
         repaint();
     }
 
@@ -111,7 +115,9 @@ public class GameArea extends JPanel {
         while (checkBottom()) {
             block.moveDown();
         }
-        SoundPlayer.getInstance().playMoveTurn();
+        if(isSoundEffectsOn) {
+            SoundPlayer.getInstance().playMoveTurn(); // sound
+        }
         repaint();
     }
 
@@ -120,7 +126,9 @@ public class GameArea extends JPanel {
 
         if (block == null) return;
         block.rotate();
-        SoundPlayer.getInstance().playMoveTurn(); //rotate sound
+        if(isSoundEffectsOn) {
+            SoundPlayer.getInstance().playMoveTurn(); // sound
+        }
 
         // To check if block goes outside
         if (block.getLeftEdge() < 0) block.setY(0);
@@ -139,9 +147,13 @@ public class GameArea extends JPanel {
         }
 
         if (isPaused) {
-            SoundPlayer.getInstance().stopBackgroundMusic(); // Stop background music when paused
+            if(isBackgroundMusicOn) {
+                SoundPlayer.getInstance().stopBackgroundMusic(); // Stop background music when paused
+            }
         } else {
-            SoundPlayer.getInstance().startBackgroundMusic(); // Resume background music when unpaused
+            if( isBackgroundMusicOn) {
+                SoundPlayer.getInstance().startBackgroundMusic(); // Stop background music when paused
+            }
         }
 
     }
@@ -165,7 +177,6 @@ public class GameArea extends JPanel {
     public void toggleSoundEffects() {
         isSoundEffectsOn = !isSoundEffectsOn; // Toggle the flag
     }
-
 
     private boolean checkBottom() {
         if (block.getBottomEdge() == gridRows) {
@@ -277,7 +288,7 @@ public class GameArea extends JPanel {
                     break;
                 case 4:
                     points = 1000;
-                    break;
+
             }
 
             // Update score in GameForm

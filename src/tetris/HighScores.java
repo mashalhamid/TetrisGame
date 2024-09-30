@@ -25,6 +25,7 @@ public class HighScores extends JFrame {
         setLocationRelativeTo(null);
         setLayout(new BorderLayout(20, 20));
 
+        //Title
         JLabel titleLabel = new JLabel("HIGH SCORES", SwingConstants.CENTER);
         titleLabel.setFont(new Font("Tahoma", Font.BOLD, 30));
         titleLabel.setForeground(Color.BLACK);
@@ -61,15 +62,13 @@ public class HighScores extends JFrame {
     }
 
     public static void addPlayer(String playerName, int score, String config) {
-        // Add player and score to high scores list
+
         PlayerScore playerScore = new PlayerScore(playerName, score, config);
         highScores.add(new PlayerScore(playerName, score, config));
 
-        // Sort the scores in descending order
-        highScores.sort((s1, s2) -> Integer.compare(s2.getScore(), s1.getScore()));
+        highScores.sort(Comparator.comparingInt(PlayerScore::getScore).reversed()); // Sort scores
 
-        // Save high scores to file
-        saveHighScores();
+        saveHighScores(); // Save high scores to file
 
         // Show high scores window
         new HighScores().setVisible(true);
