@@ -57,8 +57,8 @@ public class GameForm extends JFrame {
     // Add the game status display (Player type, levels, score, etc.)
     private void addGameStatusDisplay() {
         JPanel statusPanel = new JPanel();
-        statusPanel.setBounds(10, 50, 200, 400); // Set bounds for the status panel
-        statusPanel.setLayout(new GridLayout(5, 3, 5, 5)); // 5 rows, 1 column with spacing
+        statusPanel.setBounds(30, 70, 150, 400); // Set bounds for the status panel
+        statusPanel.setLayout(new GridLayout(5, 2, 5, 5)); // 5 rows, 1 column with spacing
 
         // Create labels
         playerTypeLabel = new JLabel("Player: " + playerType);
@@ -103,7 +103,7 @@ public class GameForm extends JFrame {
         }
     }
 
-    // Method to update the score
+   // Method to update the score
     public void updateScore(int points) {
         currentScore += points;
         scoreLabel.setText("Score: " + currentScore);
@@ -199,8 +199,9 @@ public class GameForm extends JFrame {
                     JOptionPane.YES_NO_OPTION);
 
             if (result == JOptionPane.YES_OPTION) {
+                triggerGameOver();
                 dispose(); // Close the game form
-                new MainMenu().setVisible(true); // Return to the main menu
+//                new MainMenu().setVisible(true); // Return to the main menu
             } else {
                 ga.togglePause();
                 ga.repaint();
@@ -221,6 +222,10 @@ public class GameForm extends JFrame {
         titleLabel.setForeground(Color.BLACK); // Set text color
         titleLabel.setBounds(180, 10, getWidth(), 30); // Position the label at the top center of the screen
         add(titleLabel);
+    }
+
+    public void triggerGameOver() {
+        Tetris.gameOver(currentScore);
     }
 
     public static void main(String[] args) {

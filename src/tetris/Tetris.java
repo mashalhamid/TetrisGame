@@ -8,16 +8,16 @@ public class Tetris {
     SoundPlayer soundPlayer = SoundPlayer.getInstance();
 
     public static void gameOver(int score){
-
         playGameFinishSound();
 
         SoundPlayer.getInstance().stopBackgroundMusic(); // sound
 
+        // Ask for the player's name when the game ends
         String playerName = JOptionPane.showInputDialog("Game Over! \n Please enter your name");
         if (playerName != null && !playerName.trim().isEmpty()) {
-            // Save the player's name and score
-            String config = "Human";  // Adjust this as needed to match the actual game config
-            HighScores.addPlayer(playerName, score, config);
+            String config = "Human";
+
+            HighScores.addPlayer(playerName, score, config);  // Save the player's score
         }
     }
 

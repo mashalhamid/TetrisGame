@@ -64,7 +64,7 @@ public class HighScores extends JFrame {
     public static void addPlayer(String playerName, int score, String config) {
 
         PlayerScore playerScore = new PlayerScore(playerName, score, config);
-        highScores.add(new PlayerScore(playerName, score, config));
+        highScores.add(playerScore);
 
         highScores.sort(Comparator.comparingInt(PlayerScore::getScore).reversed()); // Sort scores
 

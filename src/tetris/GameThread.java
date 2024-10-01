@@ -6,6 +6,7 @@ import java.util.logging.Logger;
 public class GameThread extends Thread {
 
     private GameArea ga;
+    private GameForm gameForm;
     private int score = 0; // Add a score variable
 
     public GameThread(GameArea ga) {
@@ -34,13 +35,15 @@ public class GameThread extends Thread {
             }
 
             if (ga.isBlockOutOfBounds()) {
+                int score = ga.getScore(); // Fetch the current score
                 Tetris.gameOver(score); // Pass the score when the game is over
                 break;
             }
 
             ga.moveBlockToBackground();
-            score += 100; // Update score for each block that settles
             ga.clearRows();
         }
+
     }
+
 }

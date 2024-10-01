@@ -9,20 +9,24 @@ public class GameArea extends JPanel {
     private int gridColumns;
     private int gridCellSize;
     private Color[][] background;
+
     private TetrisBlock block; // tetris block
     private TetrisBlock[] blocks;
+
     private GameForm gameForm;  // Reference to GameForm
+    private GameThread gameThread; // Reference to GameThread
     private SoundPlayer soundPlayer;
 
     private boolean isPaused = false; // Flag to indicate if the game is paused
     private static boolean isBackgroundMusicOn = true; // To track background music toggle
     private static boolean isSoundEffectsOn = true;    // To track sound effects toggle
 
-
-
     private int score = 0;  // Track player's score
-    private int level = 1;  // Track player's level
-    private int rowsCleared = 0;  // Track total rows cleared
+
+//    private int score = 0;  // Track player's score
+//    private int level = 1;  // Track player's level
+//    private int rowsCleared = 0;  // Track total rows cleared
+//
     private int columns;
 
 
@@ -34,7 +38,9 @@ public class GameArea extends JPanel {
 
         this.columns = columns;
         this.gameForm = gameForm;  // Store reference to GameForm
-        setBounds(130, 70, 200, 400);
+        this.gameThread=gameThread;
+
+        setBounds(200, 70, 200, 400);
         setBorder(BorderFactory.createLineBorder(Color.lightGray, 2));
 
         gridColumns = columns;
@@ -291,10 +297,11 @@ public class GameArea extends JPanel {
 
             }
 
+            // Update the total score
+            score += points;  // Update the score variable
+
             // Update score in GameForm
             gameForm.updateScore(points);
-
-            //Update score in PlayerScore
 
             // Update lines erased in GameForm
             gameForm.updateLinesErased(rowsClearedThisTurn);
@@ -305,6 +312,11 @@ public class GameArea extends JPanel {
                 }
             }
         }
+    }
+
+    // Method to get the current score
+    public int getScore() {
+        return score;
     }
 
     private void clearRow(int row) {
