@@ -1,6 +1,7 @@
 package tetris;
 
 import javax.sound.sampled.*;
+import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.logging.Level;
@@ -13,6 +14,9 @@ public class SoundPlayer {
     private Clip backgroundMusic;
     private Clip levelUpSound;
     private Clip moveTurnSound;
+
+    private boolean soundEffectsEnabled = true; // Flag for sound effect
+    private boolean musicEnabled = true; // Flag for background music
 
     private SoundPlayer() {  //Constructor for singleton
         try {
@@ -37,6 +41,7 @@ public class SoundPlayer {
             Logger.getLogger(SoundPlayer.class.getName()).log(Level.SEVERE, null, e);
         }
     }
+
     // Singleton getInstance method
     public static SoundPlayer getInstance() {
         if (instance == null) {
@@ -55,48 +60,74 @@ public class SoundPlayer {
     }
 
     public void playEraseLine() {
-        if (eraseLineSound.isRunning()) {
-            eraseLineSound.stop();
+        if (soundEffectsEnabled) {  // Check if sound effects are enabled
+            if (eraseLineSound.isRunning()) {
+                eraseLineSound.stop();
+            }
+            eraseLineSound.setFramePosition(0);
+            eraseLineSound.start();
         }
-        eraseLineSound.setFramePosition(0);
-        eraseLineSound.start();
     }
 
     public void playGameFinish() {
-        if (gameFinishSound.isRunning()) {
-            gameFinishSound.stop();
+        if (soundEffectsEnabled) {  // Check if sound effects are enabled
+            if (gameFinishSound.isRunning()) {
+                gameFinishSound.stop();
+            }
+            gameFinishSound.setFramePosition(0);
+            gameFinishSound.start();
         }
-        gameFinishSound.setFramePosition(0);
-        gameFinishSound.start();
     }
 
     public void playLevelUp() {
-        if (levelUpSound.isRunning()) {
-            levelUpSound.stop();
+        if (soundEffectsEnabled) {  // Check if sound effects are enabled
+            if (levelUpSound.isRunning()) {
+                levelUpSound.stop();
+            }
+            levelUpSound.setFramePosition(0);
+            levelUpSound.start();
         }
-        levelUpSound.setFramePosition(0);
-        levelUpSound.start();
     }
 
     public void playMoveTurn() {
-        if (moveTurnSound.isRunning()) {
-            moveTurnSound.stop();
+        if (soundEffectsEnabled) {  // Check if sound effects are enabled
+            if (moveTurnSound.isRunning()) {
+                moveTurnSound.stop();
+            }
+            moveTurnSound.setFramePosition(0);
+            moveTurnSound.start();
         }
-        moveTurnSound.setFramePosition(0);
-        moveTurnSound.start();
-
     }
 
-    // Methods to control background music
     public void startBackgroundMusic() {
-        if (!backgroundMusic.isRunning()) {
+        if (musicEnabled && !backgroundMusic.isRunning()) {
             backgroundMusic.loop(Clip.LOOP_CONTINUOUSLY);
         }
     }
+
+
+//    // Methods to control background music
+//    public void startBackgroundMusic() {
+//        if (musicEnabled) {  // Check if sound effects are enabled
+//            if (!backgroundMusic.isRunning()) {
+//                backgroundMusic.loop(Clip.LOOP_CONTINUOUSLY);
+//            }
+//        }
+//    }
 
     public void stopBackgroundMusic() {
         if (backgroundMusic.isRunning()) {
             backgroundMusic.stop();
         }
     }
+
+    public void setMusicEnabled(boolean enabled) {
+        this.musicEnabled = enabled;
+        if (enabled) {
+            startBackgroundMusic();
+        } else {
+            stopBackgroundMusic();
+        }
+    }
+
 }

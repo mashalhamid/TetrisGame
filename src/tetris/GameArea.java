@@ -23,17 +23,13 @@ public class GameArea extends JPanel {
 
     private int score = 0;  // Track player's score
 
-//    private int score = 0;  // Track player's score
-//    private int level = 1;  // Track player's level
-//    private int rowsCleared = 0;  // Track total rows cleared
-//
     private int columns;
 
 
 
     public GameArea(int columns ,GameForm gameForm) //constructor
     {
-        // Use the Singleton instance:
+        // Use the Singleton instance for sound
         SoundPlayer soundPlayer = SoundPlayer.getInstance();
 
         this.columns = columns;
