@@ -11,6 +11,8 @@ public class Tetris {
 
         playGameFinishSound();
 
+        SoundPlayer.getInstance().stopBackgroundMusic(); // sound
+
         String playerName = JOptionPane.showInputDialog("Game Over! \n Please enter your name");
         if (playerName != null && !playerName.trim().isEmpty()) {
             // Save the player's name and score
