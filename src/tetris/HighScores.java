@@ -52,13 +52,35 @@ public class HighScores extends JFrame {
 
         add(scoresPanel, BorderLayout.CENTER);
 
+        // Panel for buttons
+        JPanel buttonPanel = new JPanel(new FlowLayout());
+
         // Back Button
         JButton backButton = new JButton("Back");
-        backButton.addActionListener(e -> new MainMenu().setVisible(true));
+        backButton.addActionListener(e -> {
+            new MainMenu().setVisible(true);
+            dispose();
+        });
         backButton.setBackground(Color.WHITE);
         backButton.setForeground(Color.BLACK);
         backButton.setFocusPainted(false);
-        add(backButton, BorderLayout.SOUTH);
+        buttonPanel.add(backButton);
+
+        // Clear Scores Button
+        JButton clearButton = new JButton("Clear Scores");
+        clearButton.addActionListener(e -> clearHighScores(scoresPanel)); // Handle clearing scores
+        clearButton.setBackground(Color.RED);
+        clearButton.setForeground(Color.WHITE);
+        clearButton.setFocusPainted(false);
+        buttonPanel.add(clearButton);
+
+        // Wrapper panel with padding at the bottom
+        JPanel buttonPanelWrapper = new JPanel(new BorderLayout());
+        buttonPanelWrapper.add(buttonPanel, BorderLayout.CENTER); // Add the button panel
+        buttonPanelWrapper.setBorder(BorderFactory.createEmptyBorder(0, 0, 20, 0)); // Add 20px padding to the bottom
+
+        add(buttonPanelWrapper, BorderLayout.SOUTH);
+
     }
 
     public static void addPlayer(String playerName, int score, String config) {
@@ -117,6 +139,17 @@ public class HighScores extends JFrame {
             // Display config
             gbc.gridx = 3;
             scoresPanel.add(new JLabel(playerScore.getConfig(), SwingConstants.CENTER), gbc);
+        }
+    }
+
+    // Method to clear high scores
+    private void clearHighScores(JPanel scoresPanel) {
+        int confirmed = JOptionPane.showConfirmDialog(this, "Are you sure you want to clear all high scores?", "Clear Scores", JOptionPane.YES_NO_OPTION);
+
+        if (confirmed == JOptionPane.YES_OPTION) {
+            highScores.clear(); // Clear the list of high scores
+            saveHighScores();   // Save the cleared list to the JSON file
+            displayScores(scoresPanel); // Refresh the displayed scores
         }
     }
 
