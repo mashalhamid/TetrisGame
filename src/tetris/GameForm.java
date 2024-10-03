@@ -54,6 +54,23 @@ public class GameForm extends JFrame {
         backButton();
     }
 
+    // Add title label at the top
+    public void addTitleLabel(String text) {
+        JLabel titleLabel = new JLabel(text);
+        titleLabel.setFont(new Font("Tahoma", Font.BOLD, 40)); // Font size and style
+        titleLabel.setForeground(Color.BLACK); // Set text color
+        titleLabel.setBounds(180, 10, getWidth(), 30);
+        add(titleLabel);
+    }
+
+    // Start the game
+    public void startGame() {
+        new GameThread(ga).start();
+    }
+    // Trigger GameOver
+    public void triggerGameOver() {
+        Tetris.gameOver(currentScore);
+    }
     // Add the game status display (Player type, levels, score, etc.)
     private void addGameStatusDisplay() {
         JPanel statusPanel = new JPanel();
@@ -103,19 +120,20 @@ public class GameForm extends JFrame {
         }
     }
 
-   // Method to update the score
-    public void updateScore(int points) {
-        currentScore += points;
-        scoreLabel.setText("Score: " + currentScore);
-    }
-
     // Method to update player type (AI, Human, etc.)
     public void updatePlayerType(String type) {
         playerType = type;
         playerTypeLabel.setText("Player: " + playerType);
     }
 
-    // Initialize controls for Tetris
+   // Method to update the score
+    public void updateScore(int points) {
+        currentScore += points;
+        scoreLabel.setText("Score: " + currentScore);
+    }
+
+
+    // Initialize key controls for Tetris
     private void initControls() {
         InputMap im = this.getRootPane().getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW);
         ActionMap am = this.getRootPane().getActionMap();
@@ -201,31 +219,12 @@ public class GameForm extends JFrame {
             if (result == JOptionPane.YES_OPTION) {
                 triggerGameOver();
                 dispose(); // Close the game form
-//                new MainMenu().setVisible(true); // Return to the main menu
             } else {
                 ga.togglePause();
                 ga.repaint();
             }
         });
         add(backButton);
-    }
-
-    // Start the game
-    public void startGame() {
-        new GameThread(ga).start();
-    }
-
-    // Add title label at the top
-    public void addTitleLabel(String text) {
-        JLabel titleLabel = new JLabel(text);
-        titleLabel.setFont(new Font("Tahoma", Font.BOLD, 40)); // Set font size and style
-        titleLabel.setForeground(Color.BLACK); // Set text color
-        titleLabel.setBounds(180, 10, getWidth(), 30); // Position the label at the top center of the screen
-        add(titleLabel);
-    }
-
-    public void triggerGameOver() {
-        Tetris.gameOver(currentScore);
     }
 
     public static void main(String[] args) {

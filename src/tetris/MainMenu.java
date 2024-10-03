@@ -12,24 +12,26 @@ public class MainMenu extends JFrame {
         setLocationRelativeTo(null); // Center the frame
         setLayout(null);
 
-        //creating a Jpanel to add buttons
+        //Creating a Jpanel to add buttons
         JPanel panel = new JPanel();
         panel.setLayout(new GridLayout(4, 1, 50, 50)); // padding between buttons
         panel.setBounds(130, 120, 250, 350); // Set bounds for the panel
 
+        //Play Game
         JButton playButton = createStyledButton("Play");
         playButton.addActionListener(e -> {
             new GameForm().setVisible(true);
             dispose(); // closes the menu
         });
 
+        //Configuration
         JButton configButton = createStyledButton("Configuration");
         configButton.addActionListener(e -> {
             new Configuration().setVisible(true);
             dispose(); // closes the menu
         });
 
-
+        //High Scores
         JButton highScoresButton = createStyledButton("High Scores");
         highScoresButton.addActionListener(e -> {
             new HighScores().setVisible(true);
@@ -37,7 +39,7 @@ public class MainMenu extends JFrame {
         });
 
 
-
+        // Exit Game
         JButton exitButton = createStyledButton("Exit");
         exitButton.addActionListener(e -> {
             int result = JOptionPane.showConfirmDialog(

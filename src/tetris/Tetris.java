@@ -9,9 +9,7 @@ public class Tetris {
 
     public static void gameOver(int score){
         playGameFinishSound();
-
         SoundPlayer.getInstance().stopBackgroundMusic(); // sound
-
         // Ask for the player's name when the game ends
         String playerName = JOptionPane.showInputDialog("Game Over! \n Please enter your name");
         if (playerName != null && !playerName.trim().isEmpty()) {
