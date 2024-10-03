@@ -69,10 +69,10 @@ public class Configuration extends JFrame {
         musicCheckBox = new JCheckBox("OFF"); // Initialise with "Off"
         musicCheckBox.addActionListener(e -> {
             if (musicCheckBox.isSelected()) {
-                musicCheckBox.setText("On");
+                musicCheckBox.setText("ON");
                 SoundPlayer.getInstance().setMusicEnabled(true); // Enable background music
             } else {
-                musicCheckBox.setText("Off");
+                musicCheckBox.setText("OFF");
                 SoundPlayer.getInstance().setMusicEnabled(false); // Disable background music
             }
         });
